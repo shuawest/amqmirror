@@ -1,0 +1,20 @@
+---
+
+- hosts: brokers
+  gather_facts: yes
+  tasks: 
+
+    - name: Clean broker host {{ansible_host}}
+      vars:
+        broker_cluster_instance: active
+      include_role:
+        name: broker
+        tasks_from: clean.yaml
+
+    - name: Clean broker host {{ansible_host}}
+      vars:
+        broker_cluster_instance: passive
+      include_role:
+        name: broker
+        tasks_from: clean.yaml
+

@@ -1,0 +1,11 @@
+---
+
+- name: Start broker instance
+  shell: |
+    export JAVA_ARGS="-XX:+PrintClassHistogram -XX:+UseG1GC -Xms{{amq_broker_heap_min}} -Xmx{{amq_broker_heap_max}} -Dhawtio.disableProxy=true -Dhawtio.realm=activemq  -Dhawtio.offline=true -Dhawtio.role=amq -Dhawtio.rolePrincipalClasses=org.apache.activemq.artemis.spi.core.security.jaas.RolePrincipal -Djolokia.policyLocation=file:{{broker_instance_path}}/etc/jolokia-access.xml -Djon.id=amq"
+    {{broker_instance_path}}/bin/artemis-service start
+  register: broker_instance_start_result
+
+- name: Start broker instance result
+  debug: 
+    msg: "{{broker_instance_start_result.stdout}}"

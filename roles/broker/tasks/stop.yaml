@@ -1,0 +1,6 @@
+---
+
+- name: Force kill all Artemis Services
+  ignore_errors: true
+  shell: |
+    jps -l | grep {{amq_jps_name}} | awk '{print $1}' | xargs kill -9

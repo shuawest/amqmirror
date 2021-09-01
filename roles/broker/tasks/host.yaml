@@ -1,0 +1,65 @@
+---
+
+- name: Install prerequisite packages
+  become: yes
+  vars:
+    packages:
+    - libaio
+    - java-1.8.0-openjdk
+    - java-1.8.0-openjdk-devel
+    - jq
+    - unzip
+    - firewalld
+  dnf:
+    name: "{{ packages }}"
+    state: present
+  tags: 
+    - packages
+    - privileged
+
+- name: Ensure group for broker exists
+  become: yes
+  ansible.builtin.group:
+    name: "{{broker_host_group}}"
+    state: present
+  tags: 
+    - host
+    - privileged
+
+- name: Ensure user for broker exists
+  become: yes
+  ansible.builtin.user:
+    name: "{{broker_host_user}}"
+    groups: "{{broker_host_group}}"
+    append: yes
+  tags: 
+    - host
+    - privileged
+
+- name: Create broker root path 
+  become: yes
+  file: 
+    path: "{{broker_root}}"
+    state: directory
+    owner: "{{broker_host_user}}"
+    group: "{{broker_host_group}}"
+  tags: 
+    - host
+    - privileged
+
+
+- name: Ensure broker firewall ports are open
+  become: true
+  with_items: 
+  - "{{broker_web_port}}/tcp"
+  - "{{broker_amqp_port}}/tcp"
+  - "{{broker_core_port}}/tcp"
+  ansible.posix.firewalld:
+    port: "{{item}}"
+    permanent: yes
+    state: enabled
+    immediate: yes
+  tags: 
+    - firewall
+    - privileged
+    

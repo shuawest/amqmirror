@@ -1,0 +1,41 @@
+---
+
+- hosts: brokers
+  gather_facts: yes
+  tasks: 
+
+    - name: Prepare broker host {{ansible_host}}
+      include_role:
+        name: broker
+        tasks_from: host.yaml
+
+    - name: Install broker on host {{ansible_host}}
+      include_role:
+        name: broker
+        tasks_from: install.yaml
+
+# collect broker topolog facts
+#   broker pair in same site
+#   brokers across sites
+
+- hosts: brokers_active
+  gather_facts: yes
+  tasks: 
+
+    - name: Create broker instance on host {{ansible_host}}
+      vars:
+        broker_cluster_instance: active
+      include_role:
+        name: broker
+        tasks_from: instance.yaml
+
+- hosts: brokers_passive
+  gather_facts: yes
+  tasks: 
+
+    - name: Create broker instance on host {{ansible_host}}
+      vars:
+        broker_cluster_instance: passive
+      include_role:
+        name: broker
+        tasks_from: instance.yaml

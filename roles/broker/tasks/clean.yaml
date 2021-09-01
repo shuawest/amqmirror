@@ -1,0 +1,38 @@
+---
+
+- name: Stop Artemis Service
+  ignore_errors: true
+  shell: |
+    {{broker_instance_path}}/bin/artemis-service stop
+
+- name: Force Stop Artemis Service
+  ignore_errors: true
+  shell: |
+    {{broker_instance_path}}/bin/artemis-service force-stop
+
+- name: Pause while shutting down 
+  pause:
+    seconds: 3
+
+- name: Remove AMQ Broker instance
+  become: yes
+  become_user: "{{broker_host_user}}"
+  file:
+    path: "{{broker_instance_path}}/"
+    state: absent
+
+- name: Remove AMQ Broker data directory
+  become: yes
+  become_user: "{{broker_host_user}}"
+  file:
+    path: "{{broker_data_dir}}/"
+    state: absent
+
+
+- name: Register log files
+  become: yes
+  become_user: "{{broker_host_user}}"
+  args:
+    chdir: "{{broker_root}}"
+  shell: |
+    rm -f ./*.log

@@ -1,0 +1,57 @@
+---
+
+broker_binary_miorr: https://www.apache.org/dyn/closer.cgi?filename=activemq/activemq-artemis/2.18.0/apache-artemis-2.18.0-bin.zip&action=download
+broker_archive_local: ~/Downloads/apache-artemis-2.18.0-bin.zip
+
+broker_root: /opt/artemis_broker
+broker_archive_remote: "{{broker_root}}/apache-artemis-2.18.0-bin.zip"
+broker_install_path: "{{broker_root}}/apache-artemis-2.18.0"
+
+broker_jps_name: org.apache.activemq.artemis.boot.Artemis
+
+broker_cluster_type: sharedstore
+broker_cluster_instance: active
+
+broker_cluster_index: 1
+broker_name: "{{broker_cluster_type}}_{{broker_cluster_instance}}_{{broker_cluster_index}}"
+
+broker_instance_path: "{{broker_root}}/{{broker_name}}"
+broker_data_dir: "{{broker_root}}/data"
+
+broker_host_user: artemis_broker
+broker_host_group: artemis_broker
+
+broker_user: admin
+broker_pass: admin
+broker_cluster_user: clusteruser
+broker_cluster_pass: clusterpass
+broker_cluster_failover: "false"
+
+broker_host: localhost
+broker_port_offset: 0
+broker_web_port: 8161
+broker_amqp_port: 5672
+broker_core_port: 61616
+broker_broker_heap_min: 2G
+broker_broker_heap_max: 2G
+
+broker_tcpSendBufferSize: 1048576
+broker_tcpReceiveBufferSize: 1048576
+broker_amqpCredits: 1000
+broker_amqpLowCredits: 300
+
+broker_globalMaxSize: 8192
+broker_journalDeviceBlockSize: 16384
+broker_pageSyncTimeout: 1436000
+broker_maxDiskUsage: 90
+broker_diskScanPeriod: 5000
+broker_journalMaxIo: 4096
+broker_journalBufferTimeout: 20000
+broker_journalDatasync: "true"
+broker_journalMinFiles: 2
+broker_journalPoolFiles: 10
+broker_journalFileSize: 10M
+broker_journalType: ASYNCIO
+broker_persistenceEnabled: "true"
+broker_storage_mode: paging
+broker_address_full_policy: PAGE   

@@ -1,0 +1,57 @@
+---
+
+- name: Ensure data directory exists
+  become: yes
+  become_user: "{{broker_host_user}}"
+  file: 
+    path: "{{broker_data_dir}}"
+    state: directory
+    owner: "{{broker_host_user}}"
+    group: "{{broker_host_group}}"
+
+# - name: Create broker instance
+#   become: yes
+#   become_user: "{{broker_host_user}}"
+#   args: 
+#     chdir: "{{broker_root}}"
+#   shell: |
+#     {{broker_install_path}}/bin/artemis create {% if broker_cluster_instance == 'passive' %}--slave{% endif %} \
+#       --allow-anonymous --relax-jolokia \
+#       --user {{broker_user}} --password {{broker_pass}} \
+#       --cluster-user {{broker_cluster_user}} --cluster-password {{broker_cluster_pass}} \
+#       --host {{broker_host}} --http-host {{broker_host}} --port-offset {{broker_port_offset}} \
+#       --aio --shared-store --autocreate --no-hornetq-acceptor --no-mqtt-acceptor --no-stomp-acceptor --message-load-balancing OFF \
+#       --journal-device-block-size {{broker_journalDeviceBlockSize}} \
+#       --global-max-size {{broker_globalMaxSize}} \
+#       --data {{broker_data_dir}} \      
+#       --{{broker_storage_mode}} \
+#       --name {{broker_broker_name}} \
+#       {{broker_broker_name}} > {{broker_root}}/{{broker_name}}-createinstance.log 2>&1
+
+- name: Create broker instance
+  become: yes
+  become_user: "{{broker_host_user}}"
+  args: 
+    chdir: "{{broker_root}}"
+  shell: |
+    {{broker_install_path}}/bin/artemis create {% if broker_cluster_instance == 'passive' %}--slave{% endif %} \
+      --allow-anonymous --relax-jolokia \
+      --user {{broker_user}} --password {{broker_pass}} \
+      --cluster-user {{broker_cluster_user}} --cluster-password {{broker_cluster_pass}} \
+      --host {{broker_host}} --http-host {{broker_host}} --port-offset {{broker_port_offset}} \
+      --aio --shared-store --autocreate --no-hornetq-acceptor --no-mqtt-acceptor --no-stomp-acceptor --message-load-balancing OFF \
+      --journal-device-block-size {{broker_journalDeviceBlockSize}} \
+      --global-max-size {{broker_globalMaxSize}} \
+      --data {{broker_data_dir}} \      
+      --{{broker_storage_mode}} \
+      --name {{broker_name}} \
+      {{broker_name}} > {{broker_root}}/{{broker_name}}-createinstance.log 2>&1
+
+# - name: Configure etc/broker.xml from template
+#   become: yes
+#   become_user: "{{broker_host_user}}"
+#   template: 
+#     src: templates/ssbroker.xml.j2
+#     dest: "{{broker_instance_path}}/etc/broker.xml"
+#     backup: yes
+

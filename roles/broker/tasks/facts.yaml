@@ -1,0 +1,54 @@
+---
+
+- name: Broker configuration parameters
+  debug:
+    msg: 
+      - "amq_cluster_type: {{broker_cluster_type}}"
+      - "broker_host: {{broker_host}}"
+      - "broker_cluster_index: {{broker_cluster_index}}"
+      - "broker_instance: {{broker_instance}}"
+      - "peer_instances: {{peer_instances}}"
+      - "cluster_addr: {{cluster_addr}}"
+      - "broker_port_offset: {{broker_port_offset}}"
+      - "broker_broker_heap_min: {{broker_broker_heap_min}}"
+      - "broker_broker_heap_max: {{broker_broker_heap_max}}"
+      - "broker_globalMaxSize: {{broker_globalMaxSize}}"
+      - "broker_journalDeviceBlockSize: {{broker_journalDeviceBlockSize}}"
+      - "broker_pageSyncTimeout: {{broker_pageSyncTimeout}}"
+      - "broker_diskScanPeriod: {{broker_diskScanPeriod}}"
+      - "broker_journalMaxIo: {{broker_journalMaxIo}}"
+      - "broker_journalBufferTimeout: {{broker_journalBufferTimeout}}"
+      - "broker_journalDatasync: {{broker_journalDatasync}}"
+      - "broker_journalMinFiles: {{broker_journalMinFiles}}"
+      - "broker_journalPoolFiles: {{broker_journalPoolFiles}}"
+      - "broker_journalFileSize: {{broker_journalFileSize}}"
+      - "broker_journalType: {{broker_journalType}}"
+      - "broker_storage_mode: {{broker_storage_mode}}"
+      - "broker_address_full_policy: {{broker_address_full_policy}}"
+
+# - name: Ensure run local output directory exists
+#   file: 
+#     path: "{{amq_battery_run_root}}/{{amq_battery_run_id}}"
+#     state: directory
+#   delegate_to: localhost
+
+# - name: Fetch the artemis boot log to the run
+#   fetch:
+#     src: "{{amq_instance_path}}/log/artemis.log"
+#     dest: "{{amq_battery_run_root}}/{{amq_battery_run_id}}/{{amq_broker_name}}-artemis.boot.log"
+#     flat: yes
+#     fail_on_missing: no
+
+# - name: Fetch the updated broker.xml log to the run
+#   fetch:
+#     src: "{{amq_instance_path}}/etc/broker.xml"
+#     dest: "{{amq_battery_run_root}}/{{amq_battery_run_id}}/{{amq_broker_name}}-broker.gen.xml"
+#     flat: yes
+#     fail_on_missing: no
+
+# - name: Fetch the broker.xml log to the run
+#   fetch:
+#     src: "{{amq_instance_path}}/etc/broker.xml"
+#     dest: "{{amq_battery_run_root}}/{{amq_battery_run_id}}/{{amq_broker_name}}-broker.orig.xml"
+#     flat: yes
+#     fail_on_missing: no

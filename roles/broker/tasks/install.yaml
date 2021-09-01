@@ -1,0 +1,21 @@
+---
+
+- name: Copy broker binary to host
+  become: yes
+  become_user: "{{broker_host_user}}"
+  copy: 
+    src: "{{broker_archive_local}}"
+    dest: "{{broker_archive_remote}}"
+    owner: "{{broker_host_user}}"
+    group: "{{broker_host_group}}"
+
+- name: Unzip broker archive
+  become: yes
+  become_user: "{{broker_host_user}}"
+  unarchive:
+    remote_src: yes
+    src: "{{broker_archive_remote}}"
+    dest: "{{broker_root}}"
+    creates: "{{broker_install_path}}/bin/artemis"
+    owner: "{{broker_host_user}}"
+    group: "{{broker_host_group}}"
